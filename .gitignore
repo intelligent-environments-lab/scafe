@@ -1,1 +1,5 @@
 .idea/
+*.npy
+*.csv
+__pycache__/
+runs/
