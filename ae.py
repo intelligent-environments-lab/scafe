@@ -42,13 +42,37 @@ class Encoder(nn.Module):
 
         self.fc_out = nn.Linear(in_features=256, out_features=latent_space_dim)
 
+        self.gradients = None
+
+    # hook for the gradients of the activations
+    def activations_hook(self, grad):
+        self.gradients = grad
+
+    # method for the gradient extraction
+    def get_activations_gradient(self):
+        return self.gradients
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.prelu_1(self.bn_1(self.conv_1(x)))
         x = self.prelu_2(self.bn_2(self.conv_2(x)))
         x = self.prelu_3(self.bn_3(self.conv_3(x)))
+        h = x.register_hook(self.activations_hook)
         x = self.prelu_4(self.bn_4(self.conv_4(x)))
         x = x.view(x.shape[0], -1)
         x = self.fc_out(x)
+        return x
+
+    def extract_features(self, x):
+        x = self.prelu_1(self.bn_1(self.conv_1(x)))
+        x = self.prelu_2(self.bn_2(self.conv_2(x)))
+        x = self.prelu_3(self.bn_3(self.conv_3(x)))
+        x = self.prelu_4(self.bn_4(self.conv_4(x)))
+        return x
+
+    def get_activations(self, x):
+        x = self.prelu_1(self.bn_1(self.conv_1(x)))
+        x = self.prelu_2(self.bn_2(self.conv_2(x)))
+        x = self.prelu_3(self.bn_3(self.conv_3(x)))
         return x
 
 
