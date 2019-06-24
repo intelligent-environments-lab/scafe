@@ -25,7 +25,11 @@ Create the Anaconda environment by running:
 
 `conda env create -f reqs.yml`
 
-Activate the `scafe` environment and install `pyts` by executing
+Activate the `scafe` environment by executing:
+ 
+`conda activate scafe`.
+ 
+Finally, install `pyts` by executing
 
 `pip install pyts==0.7.5`
 
@@ -33,3 +37,6 @@ Note that the data should be stored in a `.csv` file. To run the autoencoder
 training and clustering with feature extraction (full pipeline) run:
 
 `python scafe.py --full --path ./path-to-your-data-csv/`.
+
+We strongly recommend to train the model only on machines that have CUDA 
+support.

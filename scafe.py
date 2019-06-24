@@ -7,7 +7,6 @@ from torch import nn
 from torch.optim import Adam
 from torch.nn.init import kaiming_normal_
 from torch.utils.data import DataLoader, TensorDataset
-from torch.utils.tensorboard import SummaryWriter
 import os
 from sklearn.cluster import AgglomerativeClustering
 import sklearn
@@ -175,9 +174,6 @@ def train_autoencoder(images: np.array,
     # define the adam optimizer
     adam = Adam(params=list(encoder.parameters()) + list(decoder.parameters()), lr=learning_rate)
 
-    # open the tensorboard writer
-    writer = SummaryWriter()
-
     print("Training the autoencoder...")
 
     # train the model
@@ -204,10 +200,6 @@ def train_autoencoder(images: np.array,
 
             # update the weights
             adam.step()
-
-        # write the losses into the tensorboard
-        writer.add_scalar(tag='loss', scalar_value=loss.item(), global_step=epoch)
-        writer.close()
 
     # save the model
     if save:
