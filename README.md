@@ -21,7 +21,7 @@ features that contributed the most to the clustering:
 ![Heatmaps](./plots/projected_features_threshold_0.1.png)
 
 ## Running the code
-Create the Anaconda environment by running:
+Create an Anaconda environment by running:
 
 `conda env create -f reqs.yml`
 
