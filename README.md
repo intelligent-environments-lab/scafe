@@ -1,6 +1,6 @@
 # scafe
 ## Simultaneous Clustering And Feature Extraction
-This repository contains the code we used to test the model pipeline that we proposed in CISBAT paper.
+This repository contains the code we used to test the model pipeline that we proposed in our CISBAT paper (September 2019).
 
 ### Model Overview
 ![Model Overview](./img/model_overview.jpg)
