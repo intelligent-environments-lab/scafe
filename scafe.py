@@ -22,6 +22,7 @@ plt.rcParams['figure.figsize'] = (20, 20)
 parser = argparse.ArgumentParser()
 parser.add_argument('--full', help='set the flag to true if end-to-end is needed', action='store_true')
 parser.add_argument('--cluster', help='set the flag to true if only clustering is needed', action='store_true')
+parser.add_argument('--path', help='path to the data .csv', type=str)
 
 # globals
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -38,9 +39,10 @@ def read_data(file_path: str) -> np.array:
         Args:
             file_path: path to the data
         Returns:
-            numpy array of the data read from the disk
+            data: numpy array of the data read from the disk
     """
-    return np.array(pd.read_csv(file_path, low_memory=False))
+    data = np.array(pd.read_csv(file_path, low_memory=False).dropna())
+    return data
 
 
 def encode_timeseries(timeseries_tensor: np.array, save: bool = False) -> np.array:
@@ -76,6 +78,8 @@ def encode_timeseries(timeseries_tensor: np.array, save: bool = False) -> np.arr
 
     # save if needed
     if save:
+        if not os.path.isdir('./data'):
+            os.mkdir('./data')
         np.save(file='./data/GASF_GADF_MTF_images.npy', arr=images)
 
     return images
@@ -324,10 +328,9 @@ def cluster_manifold(data: np.array) -> sklearn.cluster:
     return agg
 
 
-def main(full: bool, cluster: bool):
+def main(full: bool, cluster: bool, path: str):
 
-    # clean_df = read_data('./clean_data.csv')
-    clean_data = np.load('./ts_clean.npy')
+    clean_data = read_data(path)
 
     if not os.path.exists('./data/GASF_GADF_MTF_images.npy'):
         images = encode_timeseries(clean_data, save=True)
@@ -353,5 +356,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     full = args.full
     cluster = args.cluster
+    data_path = args.path
 
-    main(full=full, cluster=cluster)
+    main(full=full, cluster=cluster, path=data_path)
