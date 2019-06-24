@@ -3,7 +3,7 @@
 This repository contains the code we used to test the model pipeline that we proposed in our CISBAT paper (September 2019).
 
 ### Model Overview
-![Model Overview](./img/model_overview.jpg)
+![Model Overview](./img/model_overview.JPG)
 Figure above shows the overview of the pipeline that we use in our paper. We first encode the
 time-series into three-channel images where the channels are Markov Transition, Gramian 
 Angular Summation and Gramian Angular Difference Fields. Next, we train an undercomplete
